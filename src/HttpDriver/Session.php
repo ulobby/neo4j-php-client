@@ -22,9 +22,7 @@ use Http\Adapter\Guzzle6\Client;
 use Http\Client\Common\Plugin\ErrorPlugin;
 use Http\Client\Common\PluginClient;
 use Http\Client\Exception\HttpException;
-use Http\Client\Exception\RequestException;
 use Http\Client\HttpClient;
-use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\RequestFactory;
 use Psr\Http\Message\RequestInterface;
 
@@ -63,7 +61,7 @@ class Session implements SessionInterface
     /**
      * @param string                  $uri
      * @param GuzzleClient|HttpClient $httpClient
-     * @param BaseConfiguration       $config
+     * @param ConfigInterface         $config
      */
     public function __construct($uri, $httpClient, ConfigInterface $config)
     {
@@ -154,9 +152,8 @@ class Session implements SessionInterface
 
                 throw $exception;
             }
-            $results = $this->responseFormatter->format(json_decode($response->getBody(), true), $pipeline->statements());
 
-            return $results;
+            return $this->responseFormatter->format($data, $pipeline->statements());
         } catch (HttpException $e) {
             $body = json_decode($e->getResponse()->getBody(), true);
             if (!isset($body['code'])) {
@@ -287,7 +284,7 @@ class Session implements SessionInterface
                 throw $exception;
             }
 
-            return $this->responseFormatter->format(json_decode($response->getBody(), true), $statementsStack);
+            return $this->responseFormatter->format($data, $statementsStack);
         } catch (HttpException $e) {
             $body = json_decode($e->getResponse()->getBody(), true);
             if (!isset($body['code'])) {
