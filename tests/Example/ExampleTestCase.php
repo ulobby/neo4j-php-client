@@ -12,9 +12,11 @@
 namespace GraphAware\Neo4j\Client\Tests\Example;
 
 use GraphAware\Neo4j\Client\ClientBuilder;
+use GraphAware\Neo4j\Client\Tests\ConnectionUrlProvider;
 
 abstract class ExampleTestCase extends \PHPUnit_Framework_TestCase
 {
+    use ConnectionUrlProvider;
     /**
      * @var \GraphAware\Neo4j\Client\Client
      */
@@ -22,15 +24,7 @@ abstract class ExampleTestCase extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $boltUrl = 'bolt://localhost';
-        if (isset($_ENV['NEO4J_USER'])) {
-            $boltUrl = sprintf(
-                'bolt://%s:%s@%s',
-                getenv('NEO4J_USER'),
-                getenv('NEO4J_PASSWORD'),
-                getenv('NEO4J_HOST')
-            );
-        }
+        $boltUrl = $this->getConnections()['bolt'];
 
         $this->client = ClientBuilder::create()
             ->addConnection('default', $boltUrl)

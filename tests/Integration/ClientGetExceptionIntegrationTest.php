@@ -13,20 +13,15 @@ namespace GraphAware\Neo4j\Client\Tests\Integration;
 
 use GraphAware\Neo4j\Client\ClientBuilder;
 use GraphAware\Neo4j\Client\Exception\Neo4jException;
+use GraphAware\Neo4j\Client\Tests\ConnectionUrlProvider;
 
 class ClientGetExceptionIntegrationTest extends \PHPUnit_Framework_TestCase
 {
+    use ConnectionUrlProvider;
+
     public function testExceptionHandling()
     {
-        $boltUrl = 'bolt://localhost';
-        if (isset($_ENV['NEO4J_USER'])) {
-            $boltUrl = sprintf(
-                'bolt://%s:%s@%s',
-                getenv('NEO4J_USER'),
-                getenv('NEO4J_PASSWORD'),
-                getenv('NEO4J_HOST')
-            );
-        }
+        $boltUrl = $this->getConnections()['bolt'];
 
         $client = ClientBuilder::create()
             ->addConnection('default', $boltUrl)
