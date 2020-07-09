@@ -27,8 +27,8 @@ class IntegrationTestCase extends \PHPUnit_Framework_TestCase
         $connections = array_merge($this->getConnections(), $this->getAdditionalConnections());
 
         $this->client = ClientBuilder::create()
-            ->addConnection('http', $connections['http'])
             ->addConnection('bolt', $connections['bolt'])
+            ->addConnection('http', $connections['http'])
             ->build();
     }
 

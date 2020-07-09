@@ -78,9 +78,9 @@ class ClientBuilder
                     $u = $ups[0];
                     $p = $ups[1];
                     $uri = 'bolt://'.str_replace('ssl+', '', $split);
-                    $config = \GraphAware\Bolt\Configuration::newInstance()
+                    $config = \PTS\Bolt\Configuration::newInstance()
                         ->withCredentials($u, $p)
-                        ->withTLSMode(\GraphAware\Bolt\Configuration::TLSMODE_REQUIRED);
+                        ->withTLSMode(\PTS\Bolt\Configuration::TLSMODE_REQUIRED);
                 }
             }
         }

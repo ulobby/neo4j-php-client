@@ -11,7 +11,7 @@
 
 namespace GraphAware\Neo4j\Client\Tests\Integration;
 
-use GraphAware\Bolt\Driver as BoltDriver;
+use PTS\Bolt\Driver as BoltDriver;
 use GraphAware\Neo4j\Client\Client;
 use GraphAware\Neo4j\Client\ClientBuilder;
 use GraphAware\Neo4j\Client\Connection\Connection;

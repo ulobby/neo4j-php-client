@@ -11,7 +11,7 @@
 
 namespace GraphAware\Neo4j\Client\Transaction;
 
-use GraphAware\Bolt\Exception\MessageFailureException;
+use PTS\Bolt\Exception\MessageFailureException;
 use GraphAware\Common\Cypher\Statement;
 use GraphAware\Common\Result\Result;
 use GraphAware\Common\Transaction\TransactionInterface;
@@ -202,11 +202,24 @@ class Transaction
                 }
             }
 
-            $result = $this->driverTransaction->runMultiple($stack);
-            $this->driverTransaction->commit();
-            $this->queue = [];
-
-            return $result;
+            try {
+                $result = $this->driverTransaction->runMultiple($stack);
+                $this->driverTransaction->commit();
+                $this->eventDispatcher->dispatch(new PostRunEvent($result), Neo4jClientEvents::NEO4J_POST_RUN);
+                $this->queue = [];
+                return $result;
+            } catch (MessageFailureException $e) {
+                $this->driverTransaction->rollback();
+                $exception = new Neo4jException($e->getMessage());
+                $exception->setNeo4jStatusCode($e->getStatusCode());
+    
+                $event = new FailureEvent($exception);
+                $this->eventDispatcher->dispatch($event, Neo4jClientEvents::NEO4J_ON_FAILURE);
+                if ($event->shouldThrowException()) {
+                    throw $exception;
+                }
+                return null;
+            }
         }
 
         return $this->driverTransaction->commit();

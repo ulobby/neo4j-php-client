@@ -485,9 +485,9 @@ You can enable TLS encryption for the Bolt Protocol by passing a `Configuration`
 is a simple example :
 
 ```
-$config = \GraphAware\Bolt\Configuration::newInstance()
+$config = \PTS\Bolt\Configuration::newInstance()
     ->withCredentials('bolttest', 'L7n7SfTSj')
-    ->withTLSMode(\GraphAware\Bolt\Configuration::TLSMODE_REQUIRED);
+    ->withTLSMode(\PTS\Bolt\Configuration::TLSMODE_REQUIRED);
 
 $client = ClientBuilder::create()
     ->addConnection('default', 'bolt://hodccomjfkgdenl.dbs.gdb.com:24786', config)
