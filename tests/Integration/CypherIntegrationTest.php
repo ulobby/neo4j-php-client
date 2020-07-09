@@ -61,7 +61,8 @@ class CypherIntegrationTest extends IntegrationTestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testExceptionIsThrownOnEmptyStatement() {
+    public function testExceptionIsThrownOnEmptyStatement()
+    {
         $query = '';
         $this->client->run($query);
     }

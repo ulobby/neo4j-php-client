@@ -23,7 +23,9 @@ class ReadmeExampleTest extends ExampleTestCase
             'friend_name' => 'Ales',
         ]);
 
-        $result = $this->client->run('MATCH (n:Person)-[:FOLLOWS]->(friend) RETURN n.name as name, collect(friend) as friends');
+        $result = $this->client->run(
+            'MATCH (n:Person)-[:FOLLOWS]->(friend) RETURN n.name as name, collect(friend) as friends'
+        );
         $this->assertCount(1, $result->records());
 
         $record = $result->firstRecord();

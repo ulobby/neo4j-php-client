@@ -37,7 +37,9 @@ class Issue105Test extends IntegrationTestCase
 
         // Assert that the relationship is in the graph after stack execution
 
-        $result = $this->client->run('MATCH (n:Department {name:"Somme"})-[r:IN_REGION]->(re:Region {name:"Picardie"}) RETURN n, r, re');
+        $result = $this->client->run(
+            'MATCH (n:Department {name:"Somme"})-[r:IN_REGION]->(re:Region {name:"Picardie"}) RETURN n, r, re'
+        );
         $this->assertEquals(1, $result->size());
         $this->assertEquals('Picardie', $result->firstRecord()->nodeValue('re')->value('name'));
     }

@@ -65,7 +65,10 @@ class Client implements ClientInterface
 
         try {
             $result = $connection->run($query, $parameters, $tag);
-            $this->eventDispatcher->dispatch(new PostRunEvent(ResultCollection::withResult($result)), Neo4jClientEvents::NEO4J_POST_RUN);
+            $this->eventDispatcher->dispatch(
+                new PostRunEvent(ResultCollection::withResult($result)),
+                Neo4jClientEvents::NEO4J_POST_RUN
+            );
         } catch (Neo4jException $e) {
             $event = new FailureEvent($e);
             $this->eventDispatcher->dispatch($event, Neo4jClientEvents::NEO4J_ON_FAILURE);

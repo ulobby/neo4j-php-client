@@ -74,14 +74,19 @@ class Transaction
      */
     public function run($statement, array $parameters = [], $tag = null)
     {
-        if (!$this->driverTransaction->isOpen() && !in_array($this->driverTransaction->status(), ['COMMITED', 'ROLLED_BACK'], true)) {
+        if (!$this->driverTransaction->isOpen()
+            && !in_array($this->driverTransaction->status(), ['COMMITED', 'ROLLED_BACK'], true)
+        ) {
             $this->driverTransaction->begin();
         }
         $stmt = Statement::create($statement, $parameters, $tag);
         $this->eventDispatcher->dispatch(new PreRunEvent([$stmt]), Neo4jClientEvents::NEO4J_PRE_RUN);
         try {
             $result = $this->driverTransaction->run(Statement::create($statement, $parameters, $tag));
-            $this->eventDispatcher->dispatch(new PostRunEvent(ResultCollection::withResult($result)), Neo4jClientEvents::NEO4J_POST_RUN);
+            $this->eventDispatcher->dispatch(
+                new PostRunEvent(ResultCollection::withResult($result)),
+                Neo4jClientEvents::NEO4J_POST_RUN
+            );
         } catch (MessageFailureException $e) {
             $exception = new Neo4jException($e->getMessage());
             $exception->setNeo4jStatusCode($e->getStatusCode());
@@ -116,7 +121,9 @@ class Transaction
      */
     public function runStack(StackInterface $stack)
     {
-        if (!$this->driverTransaction->isOpen() && !in_array($this->driverTransaction->status(), ['COMMITED', 'ROLLED_BACK'], true)) {
+        if (!$this->driverTransaction->isOpen()
+            && !in_array($this->driverTransaction->status(), ['COMMITED', 'ROLLED_BACK'], true)
+        ) {
             $this->driverTransaction->begin();
         }
 
@@ -187,7 +194,9 @@ class Transaction
      */
     public function commit()
     {
-        if (!$this->driverTransaction->isOpen() && !in_array($this->driverTransaction->status(), ['COMMITED', 'ROLLED_BACK'], true)) {
+        if (!$this->driverTransaction->isOpen()
+            && !in_array($this->driverTransaction->status(), ['COMMITED', 'ROLLED_BACK'], true)
+        ) {
             $this->driverTransaction->begin();
         }
         if (!empty($this->queue)) {

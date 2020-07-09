@@ -125,7 +125,8 @@ class Response
      */
     public function containsRows()
     {
-        return isset($this->rawResponse['results'][0]['columns']) && !empty($this->rawResponse['results']['0']['columns']);
+        return isset($this->rawResponse['results'][0]['columns'])
+            && !empty($this->rawResponse['results']['0']['columns']);
     }
 
     /**

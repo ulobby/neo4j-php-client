@@ -66,14 +66,20 @@ class Session implements SessionInterface
     public function __construct($uri, $httpClient, ConfigInterface $config)
     {
         if ($httpClient instanceof GuzzleClient) {
-            @trigger_error('Passing a Guzzle client to Session is deprecrated. Will be removed in 5.0. Use a HTTPlug client');
+            @trigger_error(
+                'Passing a Guzzle client to Session is deprecrated. Will be removed in 5.0. Use a HTTPlug client'
+            );
             $httpClient = new Client($httpClient);
         } elseif (!$httpClient instanceof HttpClient) {
-            throw new \RuntimeException('Second argument to Session::__construct must be an instance of Http\Client\HttpClient.');
+            throw new \RuntimeException(
+                'Second argument to Session::__construct must be an instance of Http\Client\HttpClient.'
+            );
         }
 
         if (null !== $config && !$config instanceof BaseConfiguration) {
-            throw new \RuntimeException(sprintf('Third argument to "%s" must be null or "%s"', __CLASS__, BaseConfiguration::class));
+            throw new \RuntimeException(
+                sprintf('Third argument to "%s" must be null or "%s"', __CLASS__, BaseConfiguration::class)
+            );
         }
 
         $this->uri = $uri;
@@ -146,7 +152,11 @@ class Session implements SessionInterface
             $response = $this->httpClient->sendRequest($request);
             $data = json_decode((string) $response->getBody(), true);
             if (!empty($data['errors'])) {
-                $msg = sprintf('Neo4j Exception with code "%s" and message "%s"', $data['errors'][0]['code'], $data['errors'][0]['message']);
+                $msg = sprintf(
+                    'Neo4j Exception with code "%s" and message "%s"',
+                    $data['errors'][0]['code'],
+                    $data['errors'][0]['message']
+                );
                 $exception = new Neo4jException($msg);
                 $exception->setNeo4jStatusCode($data['errors'][0]['code']);
 
@@ -159,7 +169,11 @@ class Session implements SessionInterface
             if (!isset($body['code'])) {
                 throw $e;
             }
-            $msg = sprintf('Neo4j Exception with code "%s" and message "%s"', $body['errors'][0]['code'], $body['errors'][0]['message']);
+            $msg = sprintf(
+                'Neo4j Exception with code "%s" and message "%s"',
+                $body['errors'][0]['code'],
+                $body['errors'][0]['message']
+            );
             $exception = new Neo4jException($msg, 0, $e);
             $exception->setNeo4jStatusCode($body['errors'][0]['code']);
 
@@ -195,7 +209,12 @@ class Session implements SessionInterface
                 'Content-Type' => 'application/json',
         ];
 
-        return $this->requestFactory->createRequest('POST', sprintf('%s/db/data/transaction/commit', $this->uri), $headers, $body);
+        return $this->requestFactory->createRequest(
+            'POST',
+            sprintf('%s/db/data/transaction/commit', $this->uri),
+            $headers,
+            $body
+        );
     }
 
     private function formatParams(array $params)
@@ -229,7 +248,11 @@ class Session implements SessionInterface
             if (!isset($body['code'])) {
                 throw $e;
             }
-            $msg = sprintf('Neo4j Exception with code "%s" and message "%s"', $body['errors'][0]['code'], $body['errors'][0]['message']);
+            $msg = sprintf(
+                'Neo4j Exception with code "%s" and message "%s"',
+                $body['errors'][0]['code'],
+                $body['errors'][0]['message']
+            );
             $exception = new Neo4jException($msg, 0, $e);
             $exception->setNeo4jStatusCode($body['errors'][0]['code']);
 
@@ -269,13 +292,22 @@ class Session implements SessionInterface
             'statements' => $statements,
         ]);
 
-        $request = $this->requestFactory->createRequest('POST', sprintf('%s/db/data/transaction/%d', $this->uri, $transactionId), $headers, $body);
+        $request = $this->requestFactory->createRequest(
+            'POST',
+            sprintf('%s/db/data/transaction/%d', $this->uri, $transactionId),
+            $headers,
+            $body
+        );
 
         try {
             $response = $this->httpClient->sendRequest($request);
             $data = json_decode((string) $response->getBody(), true);
             if (!empty($data['errors'])) {
-                $msg = sprintf('Neo4j Exception with code "%s" and message "%s"', $data['errors'][0]['code'], $data['errors'][0]['message']);
+                $msg = sprintf(
+                    'Neo4j Exception with code "%s" and message "%s"',
+                    $data['errors'][0]['code'],
+                    $data['errors'][0]['message']
+                );
                 $exception = new Neo4jException($msg);
                 $exception->setNeo4jStatusCode($data['errors'][0]['code']);
 
@@ -288,7 +320,11 @@ class Session implements SessionInterface
             if (!isset($body['code'])) {
                 throw $e;
             }
-            $msg = sprintf('Neo4j Exception with code "%s" and message "%s"', $body['errors'][0]['code'], $body['errors'][0]['message']);
+            $msg = sprintf(
+                'Neo4j Exception with code "%s" and message "%s"',
+                $body['errors'][0]['code'],
+                $body['errors'][0]['message']
+            );
             $exception = new Neo4jException($msg, 0, $e);
             $exception->setNeo4jStatusCode($body['errors'][0]['code']);
 
@@ -303,12 +339,19 @@ class Session implements SessionInterface
      */
     public function commitTransaction($transactionId)
     {
-        $request = $this->requestFactory->createRequest('POST', sprintf('%s/db/data/transaction/%d/commit', $this->uri, $transactionId));
+        $request = $this->requestFactory->createRequest(
+            'POST',
+            sprintf('%s/db/data/transaction/%d/commit', $this->uri, $transactionId)
+        );
         try {
             $response = $this->httpClient->sendRequest($request);
             $data = json_decode((string) $response->getBody(), true);
             if (!empty($data['errors'])) {
-                $msg = sprintf('Neo4j Exception with code "%s" and message "%s"', $data['errors'][0]['code'], $data['errors'][0]['message']);
+                $msg = sprintf(
+                    'Neo4j Exception with code "%s" and message "%s"',
+                    $data['errors'][0]['code'],
+                    $data['errors'][0]['message']
+                );
                 $exception = new Neo4jException($msg);
                 $exception->setNeo4jStatusCode($data['errors'][0]['code']);
                 throw $exception;
@@ -318,7 +361,11 @@ class Session implements SessionInterface
             if (!isset($body['code'])) {
                 throw $e;
             }
-            $msg = sprintf('Neo4j Exception with code "%s" and message "%s"', $body['errors'][0]['code'], $body['errors'][0]['message']);
+            $msg = sprintf(
+                'Neo4j Exception with code "%s" and message "%s"',
+                $body['errors'][0]['code'],
+                $body['errors'][0]['message']
+            );
             $exception = new Neo4jException($msg, 0, $e);
             $exception->setNeo4jStatusCode($body['errors'][0]['code']);
 
@@ -333,7 +380,10 @@ class Session implements SessionInterface
      */
     public function rollbackTransaction($transactionId)
     {
-        $request = $this->requestFactory->createRequest('DELETE', sprintf('%s/db/data/transaction/%d', $this->uri, $transactionId));
+        $request = $this->requestFactory->createRequest(
+            'DELETE',
+            sprintf('%s/db/data/transaction/%d', $this->uri, $transactionId)
+        );
 
         try {
             $this->httpClient->sendRequest($request);
@@ -342,7 +392,11 @@ class Session implements SessionInterface
             if (!isset($body['code'])) {
                 throw $e;
             }
-            $msg = sprintf('Neo4j Exception with code "%s" and message "%s"', $body['errors'][0]['code'], $body['errors'][0]['message']);
+            $msg = sprintf(
+                'Neo4j Exception with code "%s" and message "%s"',
+                $body['errors'][0]['code'],
+                $body['errors'][0]['message']
+            );
             $exception = new Neo4jException($msg, 0, $e);
             $exception->setNeo4jStatusCode($body['errors'][0]['code']);
 
