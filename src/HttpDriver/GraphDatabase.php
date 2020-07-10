@@ -12,7 +12,6 @@
 namespace GraphAware\Neo4j\Client\HttpDriver;
 
 use GraphAware\Common\Connection\BaseConfiguration;
-use GraphAware\Common\Driver\ConfigInterface;
 use GraphAware\Common\GraphDatabaseInterface;
 
 class GraphDatabase implements GraphDatabaseInterface
@@ -23,7 +22,7 @@ class GraphDatabase implements GraphDatabaseInterface
      *
      * @return Driver
      */
-    public static function driver($uri, ConfigInterface $config = null)
+    public static function driver($uri, BaseConfiguration $config = null)
     {
         return new Driver($uri, $config);
     }

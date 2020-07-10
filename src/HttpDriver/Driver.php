@@ -12,7 +12,6 @@
 namespace GraphAware\Neo4j\Client\HttpDriver;
 
 use GraphAware\Common\Connection\BaseConfiguration;
-use GraphAware\Common\Driver\ConfigInterface;
 use GraphAware\Common\Driver\DriverInterface;
 use Http\Adapter\Guzzle6\Client;
 
@@ -34,7 +33,7 @@ class Driver implements DriverInterface
      * @param string            $uri
      * @param BaseConfiguration $config
      */
-    public function __construct($uri, ConfigInterface $config = null)
+    public function __construct($uri, BaseConfiguration $config = null)
     {
         if (null !== $config && !$config instanceof BaseConfiguration) {
             throw new \RuntimeException(

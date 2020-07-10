@@ -49,18 +49,7 @@ interface ClientInterface
      */
     public function runWrite($query, $parameters = null, $tag = null);
 
-    /**
-     * @deprecated since 4.0 - will be removed in 5.0 - use <code>$client->runWrite()</code> instead
-     *
-     * @param string      $query
-     * @param null|array  $parameters
-     * @param null|string $tag
-     *
-     * @throws Neo4jException
-     *
-     * @return AbstractRecordCursor
-     */
-    public function sendWriteQuery($query, $parameters = null, $tag = null);
+    
 
     /**
      * @param string|null $tag
@@ -92,18 +81,6 @@ interface ClientInterface
      * @return Label[]
      */
     public function getLabels($conn = null);
-
-    /**
-     * @deprecated since 4.0 - will be removed in 5.0 - use <code>$client->run()</code> instead
-     *
-     * @param string      $query
-     * @param null|array  $parameters
-     * @param null|string $tag
-     * @param null|string $connectionAlias
-     *
-     * @return AbstractRecordCursor
-     */
-    public function sendCypherQuery($query, $parameters = null, $tag = null, $connectionAlias = null);
 
     /**
      * @return ConnectionManager

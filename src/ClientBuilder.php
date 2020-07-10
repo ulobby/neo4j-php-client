@@ -165,8 +165,7 @@ class ClientBuilder
             $config =
                 isset($this->config['connections'][$alias]['config'])
                     ? $this->config['connections'][$alias]['config']
-                    : Configuration::create()
-                        ->withTimeout($this->getDefaultTimeout());
+                    : Configuration::create();
             $connectionManager->registerConnection(
                 $alias,
                 $conn['uri'],

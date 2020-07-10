@@ -99,21 +99,7 @@ class Client implements ClientInterface
             ->run($query, $parameters, $tag);
     }
 
-    /**
-     * @deprecated since 4.0 - will be removed in 5.0 - use <code>$client->runWrite()</code> instead
-     *
-     * @param string      $query
-     * @param null|array  $parameters
-     * @param null|string $tag
-     *
-     * @throws Neo4jException
-     *
-     * @return \GraphAware\Common\Result\Result
-     */
-    public function sendWriteQuery($query, $parameters = null, $tag = null)
-    {
-        return $this->runWrite($query, $parameters, $tag);
-    }
+   
 
     /**
      * @param string|null $tag
@@ -204,23 +190,6 @@ class Client implements ClientInterface
         return array_map(function (Record $record) {
             return new Label($record->get('label'));
         }, $result->records());
-    }
-
-    /**
-     * @deprecated since 4.0 - will be removed in 5.0 - use <code>$client->run()</code> instead
-     *
-     * @param string      $query
-     * @param null|array  $parameters
-     * @param null|string $tag
-     * @param null|string $connectionAlias
-     *
-     * @return \GraphAware\Common\Result\Result
-     */
-    public function sendCypherQuery($query, $parameters = null, $tag = null, $connectionAlias = null)
-    {
-        return $this->connectionManager
-            ->getConnection($connectionAlias)
-            ->run($query, $parameters, $tag);
     }
 
     /**
