@@ -12,8 +12,9 @@
 namespace GraphAware\Neo4j\Client\Tests\Integration;
 
 use GraphAware\Neo4j\Client\ClientBuilder;
-use GraphAware\Neo4j\Client\Exception\Neo4jExceptionInterface;
 use GraphAware\Neo4j\Client\Neo4jClientEvents;
+use GraphAware\Neo4j\Client\Tests\ConnectionUrlProvider;
+use GraphAware\Neo4j\Client\Exception\Neo4jExceptionInterface;
 
 /**
  * Class BuildWithEventListenersIntegrationTest.
@@ -22,21 +23,13 @@ use GraphAware\Neo4j\Client\Neo4jClientEvents;
  */
 class BuildWithEventListenersIntegrationTest extends \PHPUnit_Framework_TestCase
 {
+    use ConnectionUrlProvider;
     /**
      * @return string
      */
     private function createBoltUrl()
     {
-        $boltUrl = 'bolt://localhost';
-        if (isset($_ENV['NEO4J_USER'])) {
-            $boltUrl = sprintf(
-                'bolt://%s:%s@%s',
-                getenv('NEO4J_USER'),
-                getenv('NEO4J_PASSWORD'),
-                getenv('NEO4J_HOST')
-            );
-        }
-        return $boltUrl;
+        return $this->getConnections()['bolt'];
     }
 
     public function testListenersAreRegistered()

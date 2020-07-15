@@ -108,7 +108,7 @@ class Result extends AbstractRecordCursor
      */
     public function pushRecord($data, $graph)
     {
-        $mapped = $this->array_map_deep($data, $graph);
+        $mapped = $this->arrayMapDeep($data, $graph);
         $this->records[] = new RecordView($this->fields, $mapped);
     }
 
@@ -156,7 +156,7 @@ class Result extends AbstractRecordCursor
      *
      * @return array
      */
-    private function array_map_deep(array $array, array $graph)
+    private function arrayMapDeep(array $array, array $graph)
     {
         foreach ($array as $k => $v) {
             if (!is_array($v)) {
@@ -172,14 +172,17 @@ class Result extends AbstractRecordCursor
                     $this->extractIdFromRestUrl($v['start']),
                     $this->extractIdFromRestUrl($v['end']),
                     $v['data']
-                    );
-            } elseif (array_key_exists('length', $v) && array_key_exists('relationships', $v) && array_key_exists('nodes', $v)) {
+                );
+            } elseif (array_key_exists('length', $v)
+                && array_key_exists('relationships', $v)
+                && array_key_exists('nodes', $v)
+            ) {
                 $array[$k] = new Path(
                     $this->getNodesFromPathMetadata($v, $graph),
                     $this->getRelationshipsFromPathMetadata($v, $graph)
                 );
             } else {
-                $array[$k] = $this->array_map_deep($v, $graph);
+                $array[$k] = $this->arrayMapDeep($v, $graph);
             }
         }
 

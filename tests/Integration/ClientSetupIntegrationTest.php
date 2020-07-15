@@ -11,12 +11,13 @@
 
 namespace GraphAware\Neo4j\Client\Tests\Integration;
 
-use GraphAware\Bolt\Driver as BoltDriver;
+use PTS\Bolt\Driver as BoltDriver;
 use GraphAware\Neo4j\Client\Client;
 use GraphAware\Neo4j\Client\ClientBuilder;
 use GraphAware\Neo4j\Client\Connection\Connection;
 use GraphAware\Neo4j\Client\Connection\ConnectionManager;
 use GraphAware\Neo4j\Client\HttpDriver\Driver as HttpDriver;
+use GraphAware\Neo4j\Client\Tests\ConnectionUrlProvider;
 use InvalidArgumentException;
 
 /**
@@ -26,6 +27,7 @@ use InvalidArgumentException;
  */
 class ClientSetupIntegrationTest extends \PHPUnit_Framework_TestCase
 {
+    use ConnectionUrlProvider;
     public function testClientSetupWithOneConnection()
     {
         $client = ClientBuilder::create()
@@ -115,17 +117,7 @@ class ClientSetupIntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testSendWriteUseMasterIfAvailable()
     {
-        $httpUri = 'http://localhost:7474';
-        if (isset($_ENV['NEO4J_USER'])) {
-            $httpUri = sprintf(
-                '%s://%s:%s@%s:%s',
-                getenv('NEO4J_SCHEMA'),
-                getenv('NEO4J_USER'),
-                getenv('NEO4J_PASSWORD'),
-                getenv('NEO4J_HOST'),
-                getenv('NEO4J_PORT')
-            );
-        }
+        $httpUri = $this->getConnections()['http'];
 
         $connectionManager = $this->prophesize(ConnectionManager::class);
         $conn = new Connection('default', $httpUri, null, 5);

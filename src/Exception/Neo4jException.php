@@ -35,7 +35,9 @@ class Neo4jException extends \Exception implements Neo4jExceptionInterface
             case 'TransientError':
                 return Neo4jExceptionInterface::EFFECT_ROLLBACK;
             default:
-                throw new \InvalidArgumentException(sprintf('Invalid classification "%s" in "%s"', $classification, $this->getMessage()));
+                throw new \InvalidArgumentException(
+                    sprintf('Invalid classification "%s" in "%s"', $classification, $this->getMessage())
+                );
         }
     }
 
@@ -54,7 +56,9 @@ class Neo4jException extends \Exception implements Neo4jExceptionInterface
     {
         $parts = explode('.', $this->statusCode);
         if (!isset($parts[1])) {
-            throw new \InvalidArgumentException(sprintf('Could not parse exception classification "%"', $this->statusCode));
+            throw new \InvalidArgumentException(
+                sprintf('Could not parse exception classification "%"', $this->statusCode)
+            );
         }
 
         return $parts[1];

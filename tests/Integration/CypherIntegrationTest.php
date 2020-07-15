@@ -11,8 +11,8 @@
 
 namespace GraphAware\Neo4j\Client\Tests\Integration;
 
-use GraphAware\Bolt\Result\Type\Node as BoltNode;
-use GraphAware\Bolt\Result\Type\Relationship as BoltRelationship;
+use PTS\Bolt\Result\Type\Node as BoltNode;
+use PTS\Bolt\Result\Type\Relationship as BoltRelationship;
 use GraphAware\Common\Type\Node;
 use GraphAware\Common\Type\Path;
 use GraphAware\Neo4j\Client\Formatter\Type\Node as HttpNode;
@@ -61,7 +61,8 @@ class CypherIntegrationTest extends IntegrationTestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testExceptionIsThrownOnEmptyStatement() {
+    public function testExceptionIsThrownOnEmptyStatement()
+    {
         $query = '';
         $this->client->run($query);
     }

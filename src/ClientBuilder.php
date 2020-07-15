@@ -68,7 +68,7 @@ class ClientBuilder
     {
         //small hack for drupal
         if (substr($uri, 0, 7) === 'bolt://') {
-            $parts = explode('bolt://', $uri );
+            $parts = explode('bolt://', $uri);
             if (count($parts) === 2) {
                 $splits = explode('@', $parts[1]);
                 $split = $splits[count($splits)-1];
@@ -78,9 +78,9 @@ class ClientBuilder
                     $u = $ups[0];
                     $p = $ups[1];
                     $uri = 'bolt://'.str_replace('ssl+', '', $split);
-                    $config = \GraphAware\Bolt\Configuration::newInstance()
+                    $config = \PTS\Bolt\Configuration::newInstance()
                         ->withCredentials($u, $p)
-                        ->withTLSMode(\GraphAware\Bolt\Configuration::TLSMODE_REQUIRED);
+                        ->withTLSMode(\PTS\Bolt\Configuration::TLSMODE_REQUIRED);
                 }
             }
         }
@@ -88,7 +88,8 @@ class ClientBuilder
         $this->config['connections'][$alias]['uri'] = $uri;
 
         if (null !== $config) {
-            if ($this->config['connections'][$alias]['config'] = $config);
+            if ($this->config['connections'][$alias]['config'] = $config) {
+            }
         }
 
         return $this;
@@ -110,7 +111,9 @@ class ClientBuilder
     public function setMaster($connectionAlias)
     {
         if (!isset($this->config['connections']) || !array_key_exists($connectionAlias, $this->config['connections'])) {
-            throw new \InvalidArgumentException(sprintf('The connection "%s" is not registered', (string) $connectionAlias));
+            throw new \InvalidArgumentException(
+                sprintf('The connection "%s" is not registered', (string) $connectionAlias)
+            );
         }
 
         $this->config['connections'] = array_map(function ($connectionSettings) {
@@ -162,8 +165,7 @@ class ClientBuilder
             $config =
                 isset($this->config['connections'][$alias]['config'])
                     ? $this->config['connections'][$alias]['config']
-                    : Configuration::create()
-                        ->withTimeout($this->getDefaultTimeout());
+                    : Configuration::create();
             $connectionManager->registerConnection(
                 $alias,
                 $conn['uri'],
@@ -195,6 +197,7 @@ class ClientBuilder
      */
     private function getDefaultTimeout()
     {
-        return array_key_exists(static::TIMEOUT_CONFIG_KEY, $this->config) ? $this->config[static::TIMEOUT_CONFIG_KEY] : self::DEFAULT_TIMEOUT;
+        return array_key_exists(static::TIMEOUT_CONFIG_KEY, $this->config)
+            ? $this->config[static::TIMEOUT_CONFIG_KEY] : self::DEFAULT_TIMEOUT;
     }
 }

@@ -11,7 +11,7 @@
 
 namespace GraphAware\Neo4j\Client\Tests\Integration;
 
-use GraphAware\Bolt\Exception\MessageFailureException;
+use PTS\Bolt\Exception\MessageFailureException;
 use GraphAware\Neo4j\Client\Exception\Neo4jException;
 use GraphAware\Neo4j\Client\Exception\Neo4jExceptionInterface;
 use GraphAware\Neo4j\Client\HttpDriver\Transaction;

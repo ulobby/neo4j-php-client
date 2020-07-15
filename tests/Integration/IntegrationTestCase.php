@@ -12,9 +12,11 @@
 namespace GraphAware\Neo4j\Client\Tests\Integration;
 
 use GraphAware\Neo4j\Client\ClientBuilder;
+use GraphAware\Neo4j\Client\Tests\ConnectionUrlProvider;
 
 class IntegrationTestCase extends \PHPUnit_Framework_TestCase
 {
+    use ConnectionUrlProvider;
     /**
      * @var \GraphAware\Neo4j\Client\Client
      */
@@ -25,39 +27,9 @@ class IntegrationTestCase extends \PHPUnit_Framework_TestCase
         $connections = array_merge($this->getConnections(), $this->getAdditionalConnections());
 
         $this->client = ClientBuilder::create()
-            ->addConnection('http', $connections['http'])
             ->addConnection('bolt', $connections['bolt'])
+            ->addConnection('http', $connections['http'])
             ->build();
-    }
-
-    protected function getConnections()
-    {
-        $httpUri = 'http://localhost:7474';
-        if (isset($_ENV['NEO4J_USER'])) {
-            $httpUri = sprintf(
-                '%s://%s:%s@%s:%s',
-                getenv('NEO4J_SCHEMA'),
-                getenv('NEO4J_USER'),
-                getenv('NEO4J_PASSWORD'),
-                getenv('NEO4J_HOST'),
-                getenv('NEO4J_PORT')
-            );
-        }
-
-        $boltUrl = 'bolt://localhost';
-        if (isset($_ENV['NEO4J_USER'])) {
-            $boltUrl = sprintf(
-                'bolt://%s:%s@%s',
-                getenv('NEO4J_USER'),
-                getenv('NEO4J_PASSWORD'),
-                getenv('NEO4J_HOST')
-            );
-        }
-
-        return [
-            'http' => $httpUri,
-            'bolt' => $boltUrl
-        ];
     }
 
     protected function getAdditionalConnections()

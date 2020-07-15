@@ -11,7 +11,6 @@
 
 namespace GraphAware\Neo4j\Client\HttpDriver;
 
-use GraphAware\Common\Driver\ConfigInterface;
 use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
@@ -21,20 +20,8 @@ use GraphAware\Common\Connection\BaseConfiguration;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class Configuration extends BaseConfiguration implements ConfigInterface
+class Configuration extends BaseConfiguration
 {
-    /**
-     * @var int
-     * @deprecated Will be removed in 5.0
-     */
-    protected $timeout;
-
-    /**
-     * @var string
-     * @deprecated Will be removed in 5.0
-     */
-    protected $curlInterface;
-
     /**
      * @return Configuration
      */
@@ -64,45 +51,5 @@ class Configuration extends BaseConfiguration implements ConfigInterface
     public function setRequestFactory(RequestFactory $requestFactory)
     {
         return $this->setValue('request_factory', $requestFactory);
-    }
-
-    /**
-     * @param int $timeout
-     *
-     * @return Configuration
-     * @deprecated Will be removed in 5.0. The Timeout option will disappear.
-     */
-    public function withTimeout($timeout)
-    {
-        return $this->setValue('timeout', $timeout);
-    }
-
-    /**
-     * @param string $interface
-     *
-     * @return $this
-     * @deprecated Will be removed in 5.0. The CurlInterface option will disappear.
-     */
-    public function withCurlInterface($interface)
-    {
-        return $this->setValue('curl_interface', $interface);
-    }
-
-    /**
-     * @return int
-     * @deprecated Will be removed in 5.0
-     */
-    public function getTimeout()
-    {
-        return $this->getValue('timeout');
-    }
-
-    /**
-     * @return string
-     * @deprecated Will be removed in 5.0.
-     */
-    public function getCurlInterface()
-    {
-        return $this->getValue('curl_interface');
     }
 }

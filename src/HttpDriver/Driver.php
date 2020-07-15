@@ -12,7 +12,6 @@
 namespace GraphAware\Neo4j\Client\HttpDriver;
 
 use GraphAware\Common\Connection\BaseConfiguration;
-use GraphAware\Common\Driver\ConfigInterface;
 use GraphAware\Common\Driver\DriverInterface;
 use Http\Adapter\Guzzle6\Client;
 
@@ -33,11 +32,14 @@ class Driver implements DriverInterface
     /**
      * @param string            $uri
      * @param BaseConfiguration $config
+     * @deprecated Http driver will be moved to seperate repo in V6
      */
-    public function __construct($uri, ConfigInterface $config = null)
+    public function __construct($uri, BaseConfiguration $config = null)
     {
         if (null !== $config && !$config instanceof BaseConfiguration) {
-            throw new \RuntimeException(sprintf('Second argument to "%s" must be null or "%s"', __CLASS__, BaseConfiguration::class));
+            throw new \RuntimeException(
+                sprintf('Second argument to "%s" must be null or "%s"', __CLASS__, BaseConfiguration::class)
+            );
         }
 
         $this->uri = $uri;
