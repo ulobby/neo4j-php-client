@@ -32,6 +32,7 @@ class Driver implements DriverInterface
     /**
      * @param string            $uri
      * @param BaseConfiguration $config
+     * @deprecated Http driver will be moved to seperate repo in V6
      */
     public function __construct($uri, BaseConfiguration $config = null)
     {
