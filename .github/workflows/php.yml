@@ -29,6 +29,7 @@ jobs:
           NEO4J_AUTH: none
         ports: 
           - 7687:7687
+          - 7474:7474
     steps:
     - uses: actions/checkout@v2
 
