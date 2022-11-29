@@ -31,7 +31,7 @@
       "php-http/client-common": "^2.3",
       "php-http/discovery": "^1.0",
       "php-http/message": "^1.0",
-      "php-http/guzzle6-adapter": "^2.0",
+      "php-http/guzzle7-adapter": "^2.0",
       "plumtreesystems/neo4j-bolt": "^4.0"
     },
     "require-dev": {
